@@ -1,6 +1,6 @@
 # LR(0) Parser Generator
 ##Prateek Kumar Singh 20CS01003
-This is a Python implementation of an LR (LR(0)) parser generator. The parser generator is implemented using a set of Python modules and classes. It allows you to generate parsing tables for SLR parsing and perform parsing using those tables.
+This is a Python implementation of an LR(0) parser generator. The parser generator is implemented using a set of Python modules and classes. It allows you to generate parsing tables for SLR parsing and perform parsing using those tables.
 
 ## How to Use
 

@@ -122,7 +122,6 @@ def slr_parsing_table(items):
         if isterminal: # Shift
 
             cell = parsing_table.loc[(i[0]), ('action', i[2])]
-            print(cell,"current cell before error")
             if cell !='_':
                 print('conflict: '+ cell + '    s'+str(i[1]))
                 continue
@@ -132,16 +131,26 @@ def slr_parsing_table(items):
     # reduce
     n = Rule._n # grammar rules start index
     reduce = [(s.rules[0].lhs, s._i, Rule.augmented.index(s.rules[0].copy())) for s in states if s.hasreduce]
+    # for reductions in reduce :
+        # print(Rule.augmented[reductions[2]],reductions[2],"reduce")
+    # extract all terminal sysmbols from the grammar
+    all_terminals = []
+    for elem in parsing_table.columns:
+        if elem[1].startswith('`') is False:
+            all_terminals.append(elem[1])
+    print(all_terminals,"all terminals")
     for r in reduce:
-        
         if r[0].endswith("'"):
             parsing_table.loc[(r[1]), ('action', '$')] = 'accept'
         else:
-            for f in follow_pos(r[0]):
+            # instead of follow_pos use all terminals in the grammar
+            for f in all_terminals:
+            # for f in follow_pos(r[0]):
                 cell = parsing_table.loc[(r[1]), ('action', f)]
                 if cell !='_':
                     print('conflict: '+cell + '    r'+str(r[2]+n))
                 parsing_table.loc[(r[1]), ('action', f)] = 'r'+str(r[2]+n)
+
 
 def moves(s):
     snap=[]
@@ -222,7 +231,10 @@ if __name__ == '__main__':
     `T => integer | real
     `L => `L , id | id
     """
-    print(g5, end='\n------grammar------\n\n')
-    test(g5, 'var id , id , id : real ;')
+    g6="""`E => `T + `E | `T
+    `T => id"""
+    # print(g5, end='\n------grammar------\n\n')
+    # test(g5, 'var id , id , id : real ;')
+    test(g6, ' id + id ')
     # states_graph = run(g5)
     # draw(states_graph)

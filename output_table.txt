@@ -1,0 +1,40 @@
+
+    - Rules must be in form LHS => RHS
+    - NONTERMINALS must start with (`) and be UPPERCASE. use only [A-Z] and (_) for NONTERMINALS
+    - Terminals must be lower case
+    - If there are many rhs for one lhs, you should put them all in the same line and separate them with (|) i.e: X => Y | Z | !εpslon
+    - Use the form (!εpslon) for writing epslons 
+    
+`E' → • `E 0 reduce
+`E → • `T + `E 1 reduce
+`T → • id 3 reduce
+`E → • `T + `E 1 reduce
+['+', 'id', '$'] all terminals
+conflict: s4    r1
+I0:                 
+    [`E' → • `E    ]
+    [`E → • `T + `E]
+    [`E → • `T     ]
+    [`T → • id     ]
+I1:             
+    [`E' → `E •]
+I2:                 
+    [`E → `T • + `E]
+    [`E → `T •     ]
+I3:            
+    [`T → id •]
+I4:                 
+    [`E → `T + • `E]
+    [`E → • `T + `E]
+    [`E → • `T     ]
+    [`T → • id     ]
+I5:                 
+    [`E → `T + `E •]
+table  action             goto   
+symbol      +  id       $   `E `T
+0           _  s3       _    1  2
+1           _   _  accept    _  _
+2          r1  r1      r1    _  _
+3          r3  r3      r3    _  _
+4           _  s3       _    5  2
+5          r1  r1      r1    _  _
